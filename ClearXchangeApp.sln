@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClearXchange.Server", "ClearXchange.Server\ClearXchange.Server.csproj", "{D3F20264-C6E3-4454-8738-04FD756C5D90}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "clearxchange.client", "clearxchange.client\", "{EEFC6B2C-C42C-420C-BD18-EAD3AD9CE26B}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_59037"
+		Debug.AspNetCompiler.PhysicalPath = "clearxchange.client\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59037\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_59037"
+		Release.AspNetCompiler.PhysicalPath = "clearxchange.client\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59037\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "59037"
+		SlnRelativePath = "clearxchange.client\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3F20264-C6E3-4454-8738-04FD756C5D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F20264-C6E3-4454-8738-04FD756C5D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F20264-C6E3-4454-8738-04FD756C5D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F20264-C6E3-4454-8738-04FD756C5D90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFC6B2C-C42C-420C-BD18-EAD3AD9CE26B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFC6B2C-C42C-420C-BD18-EAD3AD9CE26B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFC6B2C-C42C-420C-BD18-EAD3AD9CE26B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFC6B2C-C42C-420C-BD18-EAD3AD9CE26B}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {222977D2-1673-4066-8575-C6AC3F4F84AE}
+	EndGlobalSection
+EndGlobal
