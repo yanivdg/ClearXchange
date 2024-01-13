@@ -5,12 +5,12 @@ namespace ClearXchange.Server.Interfaces
 {
     public interface IRepository<T>
     {
-        Task<T> GetById(int id);
+        Task<T> GetById(string id);
         Task<IEnumerable<T>> Search(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> GetAll();
         Task Add(T entity);
         Task Update(T entity);
-        Task Delete(T entity);
+        Task Delete(string id);
     }
 
 }
