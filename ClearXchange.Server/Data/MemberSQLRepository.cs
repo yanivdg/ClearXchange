@@ -58,9 +58,7 @@ namespace ClearXchange.Server.Data
 
             if (entity == null)
             {
-                // Handle the case where the entity with the given ID is not found
-                // You might want to return a specific response or throw an exception
-                return;
+                throw new Exception($"Entity with id {id} not found.");
             }
 
             _context.Set<T>().Remove(entity);

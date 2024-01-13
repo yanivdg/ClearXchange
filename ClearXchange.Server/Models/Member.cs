@@ -20,8 +20,8 @@ namespace ClearXchange.Server.Model
         [Required]
         public DateTime DateOfBirth { get; set; }
 
-        [RegularExpression(@"^(MALE|FEMALE|OTHER)$", ErrorMessage = "Invalid Gender")]
-        public string? Gender { get; set; }
+        [RegularExpression(@"^(Male|Female|Other)$", ErrorMessage = "Invalid Gender")]
+        public Gender? Gender { get; set; }
 
         [RegularExpression(@"^\d+$", ErrorMessage = "Telephone must be numeric.")]
         public string Phone { get; set; }

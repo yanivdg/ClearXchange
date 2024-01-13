@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Hv8Uatx9K0RxoUfLlqcz3zdenPOpgs/0Rg+QDVrHc3AqmLVpwUUOuapWggL0rE2gv4f2oWVqfMHYYqb4bXNrmg==",
+  "dgSpecHash": "jhT6UL5yoBrtYTZ8qJnlPPSkjwY7MzgH8JaDweaAxYf1v9MtMLC7hQKczOsGW68eKh0kS0PW3dRtLEevlObCrA==",
   "success": true,
   "projectFilePath": "C:\\Users\\yaniv\\OneDrive\\Documents\\Visual Studio 2022\\Projects\\ClearXchangeApp\\ClearXchange.Server\\ClearXchange.Server.csproj",
   "expectedPackageFiles": [
@@ -62,6 +62,7 @@
     "C:\\Users\\yaniv\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\yaniv\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\yaniv\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
+    "C:\\Users\\yaniv\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.0-rc.2.21480.10\\microsoft.aspnetcore.authentication.jwtbearer.6.0.0-rc.2.21480.10.nupkg.sha512",
     "C:\\Users\\yaniv\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.0\\microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
     "C:\\Users\\yaniv\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "C:\\Users\\yaniv\\.nuget\\packages\\microsoft.build\\17.3.2\\microsoft.build.17.3.2.nupkg.sha512",

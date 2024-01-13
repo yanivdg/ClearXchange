@@ -1,72 +1,107 @@
 ﻿using ClearXchange.Server.Constants;
-using ClearXchange.Server.Data;
 using ClearXchange.Server.Interfaces;
 using ClearXchange.Server.Model;
-using Microsoft.AspNetCore.Http;
+using ClearXchange.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
+using System.Security.Claims;
+//using static MongoDB.Bson.Serialization.Serializers.SerializerHelper;
 
 namespace ClearXchange.Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MembersController : ControllerBase
     {
-        private readonly IRepository<Member> _repository;
-        //private readonly Logger<MembersController> _logger;
+        private readonly IMemberService _memberService;
+        private readonly ILogger<MembersController> _logger;
 
-        public MembersController(IRepository<Member> repository)//, Logger<MembersController> logger)
+        public MembersController(IMemberService memberService, ILogger<MembersController> logger)
         {
-            _repository = repository;
-            //_logger = logger;
+            //_repository = repository;
+            _memberService = memberService;
+            _logger = logger;
         }
 
-        [HttpGet("")]
+        [HttpGet("GetAllMembers")]
         public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
         {
-            var members = await _repository.GetAll();
-            return Ok(members);
+            try
+            {
+                var members = await _memberService.GetAllMembers();
+                if (members == null)
+                {
+                    return NotFound();
+                }
+                _logger.LogInformation($"All Members retrieved successfully.");
+                return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving members");
+                // Handle the exception and return an appropriate response...
+                return StatusCode(500, ErrorMessages.InternalError);
+            }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetMember/{id}")]
         public async Task<ActionResult<Member>> GetMember(string id)
         {
             try
             {
-                var member = await _repository.GetById(id);
+                var member = await _memberService.GetMemberById(id);
                 if (member == null)
                 {
                     return NotFound();
                 }
-                //_logger.LogInformation($"Member with ID {id} retrieved successfully.");
+                _logger.LogInformation($"Member with ID {id} retrieved successfully.");
                 return Ok(member);
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, $"Error retrieving member with ID {id}");
+                _logger.LogError(ex, $"Error retrieving member with ID {id}");
                 // Handle the exception and return an appropriate response...
                 return StatusCode(500, ErrorMessages.InternalError);
             }
 
         }
 
-        [HttpPost("")]
-        public async Task<ActionResult> AddMember([FromBody] Member newMember)
+        [HttpGet("SearchByName/{searchString}")]
+        public async Task<IActionResult> SearchByName(string searchString)
         {
             try
             {
-                await _repository.Add(newMember);
+                var members = await _memberService.Search(s => s.Name.Contains(searchString));
+                return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving members records with substring {searchString}");
+                // Handle the exception and return an appropriate response...
+                return StatusCode(500, ErrorMessages.InternalError);
+            }
+        }
+
+        [HttpPost("Create")]
+        public async Task<ActionResult> AddMember([FromBody] Member newMember)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            try
+            {
+                await _memberService.AddMember(newMember);
                 return CreatedAtAction(nameof(GetMember), new { id = newMember.Id }, newMember);
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, ErrorMessages.AddingToDbError);
+                _logger.LogError(ex, ErrorMessages.AddingToDbError);
                 // Handle the exception and return an appropriate response...
                 return StatusCode(500, ErrorMessages.InternalError);
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<ActionResult> UpdateMember(string id, [FromBody] Member updatedMember)
         {
             // Check if the provided ID matches the ID in the object
@@ -76,7 +111,7 @@ namespace ClearXchange.Server.Controllers
             }
 
             // Retrieve the existing member from the repository
-            var existingMember = await _repository.GetById(id);
+            var existingMember = await _memberService.GetMemberById(id);
 
             // Check if the member exists
             if (existingMember == null)
@@ -94,28 +129,28 @@ namespace ClearXchange.Server.Controllers
             try
             {
                 // Save the changes to the repository
-                await _repository.Update(existingMember);
-                //_logger.LogInformation($"Member with ID {id} updated successfully.");
+                await _memberService.UpdateMember(id,existingMember);
+                _logger.LogInformation($"Member with ID {id} updated successfully.");
                 return Ok();
             }
             catch(Exception ex)
             {
-                //_logger.LogError(ex, $"Error updating member with ID {id}");
+                _logger.LogError(ex, $"Error updating member with ID {id}");
                 return StatusCode(500, ErrorMessages.InternalError);
             }  
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> DeleteMember(string id)
         {
             try
             {
-                await _repository.Delete(id);
+                await _memberService.DeleteMember(id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, $"Error deleting member with ID {id}");
+                _logger.LogError(ex, $"Error deleting member with ID {id}");
                 return StatusCode(500, ErrorMessages.InternalError);
             }
         }

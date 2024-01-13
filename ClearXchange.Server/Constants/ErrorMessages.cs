@@ -6,5 +6,6 @@
         public static string NotFound = "Member not found.";
         public static string AddingToDbError = $"Error adding member";
         public static string MisMatchIDError = "ID in the URL does not match the ID in the object.";
+        public static string ID9DigitsError = "ID Number must be 9 digits.";
     }
 }

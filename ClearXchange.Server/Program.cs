@@ -8,26 +8,26 @@ using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using System;
 using Microsoft.Data.Sqlite;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 //********************builder**************************//
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
-//string SqliteConnectionString = config.GetConnectionString("SqliteConnection") ?? "";
-string sqlConnectionString = config.GetConnectionString("SqlServerConnection") ?? "";
-//string mongoDbConnectionString = config.GetConnectionString("MongoDbConnection");
 
-// sqlite
-/*
+//********sqlite*************
+string SqliteConnectionString = config.GetConnectionString("SqliteConnection") ?? "";
 builder.Services.AddDbContext<MemberDbContext>(
     options => options.UseSqlite(SqliteConnectionString));
-*/
-// Call EnsureCreated during application startup
 
-//sql server
-
+//*******sql server*************
+/*
+string sqlConnectionString = config.GetConnectionString("SqlServerConnection") ?? "";
 builder.Services.AddDbContext<MemberDbContext>(
     options => options.UseSqlServer(sqlConnectionString));
+*/
 
 
 using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
@@ -35,8 +35,18 @@ using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<MemberDbContext>();
     dbContext.Database.EnsureCreated();
 }
-//var mongoClient = new MongoClient(mongoDbConnectionString);
-//builder.Services.AddSingleton<IMongoClient>(mongoClient);
+
+//*******mongodb*************
+/*
+string mongoDbConnectionString = config.GetConnectionString("MongoDbConnection");
+var mongoClient = new MongoClient(mongoDbConnectionString);
+builder.Services.AddSingleton<IMongoClient>(mongoClient);
+*/
+builder.Services.AddDbContext<MemberDbContext>(options =>
+{
+    options.UseLoggerFactory(builder.Services.BuildServiceProvider().GetRequiredService<ILoggerFactory>());
+});
+
 
 // Add services to the container.
 builder.Services.AddMvc();
@@ -52,6 +62,26 @@ builder.Services.AddLogging();
 builder.Services.AddLogging(options =>
 {
     options.AddConsole(); 
+});
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "clearxchange-issuer",
+        ValidAudience = "clearxchange-audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("clearxchange-secret-key"))
+    };
 });
 //**********************************************//
 

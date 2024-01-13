@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "ClearXchange.Server/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.0-rc.2.21480.10",
           "Microsoft.EntityFrameworkCore": "7.0.0-rc.2.22472.11",
           "Microsoft.EntityFrameworkCore.Relational": "7.0.0-rc.2.22472.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.0-rc.2.22472.11",
@@ -652,6 +653,17 @@
         }
       },
       "MessagePackAnalyzer/2.1.152": {},
+      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.0-rc.2.21480.10": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.21.0"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.48010"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Razor.Language/6.0.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Razor.Language.dll": {
@@ -3401,6 +3413,13 @@
       "sha512": "sha512-uJhZlGMkXDaFYsH8V9S6o1EyvsUqB9mpU4DVBXNr0DXZVzZMhuLP1IkLj5xK3EKlaAcvkFkZv3eSvuz360wb3Q==",
       "path": "messagepackanalyzer/2.1.152",
       "hashPath": "messagepackanalyzer.2.1.152.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.0-rc.2.21480.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-b1h1kk0RE+MDwv37Pkvg12kbyTff+XOnMbI6ZgAJTO7oZqu1SiQ0RfTDL0jhmqpiEQNfDL3NHGQnLPzlFhN3cg==",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.0-rc.2.21480.10",
+      "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.6.0.0-rc.2.21480.10.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Razor.Language/6.0.0": {
       "type": "package",

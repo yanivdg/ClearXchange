@@ -1,6 +1,7 @@
 ﻿using ClearXchange.Server.Interfaces;
 using ClearXchange.Server.Model;
 using System.Diagnostics.Metrics;
+using System.Text.RegularExpressions;
 
 namespace ClearXchange.Server.Services
 {
@@ -46,12 +47,16 @@ namespace ClearXchange.Server.Services
 
         public void ValidatePhone(string Phone)
         { 
-            if (!string.IsNullOrEmpty(Phone) && !int.TryParse(Phone, out _))
+            if (!string.IsNullOrEmpty(Phone) && IsNumeric(Phone))
             {
                 throw new ArgumentException("Phone number must be numeric.");
             }
         }
 
+        private bool IsNumeric(string input)
+        {
+            return Regex.IsMatch(input, @"^\d+$");
+        }
         public bool IsValidEmail(string email) 
         {
             return IsValidEmailAddress(email);

@@ -10,16 +10,16 @@ namespace ClearXchange.Server.Services
     {
         private readonly IRepository<Member> _memberRepository;
         private readonly IValidationService _validationService;
-        //private readonly ILogger<MemberService> _logger;
+        private readonly ILogger<MemberService> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public MemberService(IRepository<Member> userRepository, 
                              IValidationService validationService, 
-                             IHttpContextAccessor httpContextAccessor)//,ILogger<MemberService> logger)
+                             IHttpContextAccessor httpContextAccessor,ILogger<MemberService> logger)
         {
             _memberRepository = userRepository;
             _validationService = validationService;
-            //_logger = logger;
+            _logger = logger;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -45,7 +45,7 @@ namespace ClearXchange.Server.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error retrieving member by ID: {Id}", id);
+                _logger.LogError(ex, "Error retrieving member by ID: {Id}", id);
                 throw;
             }
 
@@ -69,7 +69,7 @@ namespace ClearXchange.Server.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error adding member: {Name}", member.Name);
+                _logger.LogError(ex, "Error adding member: {Name}", member.Name);
                 throw;
             }
         }
@@ -78,7 +78,7 @@ namespace ClearXchange.Server.Services
         {
             var val = GetMemberById(id);
             if (val == null)
-            _validationService.ValidateID(id);
+                _validationService.ValidateID(id);
             try
             {
                 if (val != null)
@@ -88,7 +88,7 @@ namespace ClearXchange.Server.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error updating member: {id}", member.Id);
+                _logger.LogError(ex, "Error updating member: {id}", member.Id);
                 throw;
             }
 
@@ -109,7 +109,7 @@ namespace ClearXchange.Server.Services
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Error deleting member: {id}", id);
+                _logger.LogError(ex, "Error deleting member: {id}", id);
                 throw;
             }
         }
