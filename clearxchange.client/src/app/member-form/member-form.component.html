@@ -1,0 +1,49 @@
+<form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+  <div class="requiredfields">
+    <mat-form-field appearance="fill">
+      <label for="id">תעודת זהות*</label>
+      <input matInput required formControlName="id" #id (keydown)="onKeyPress($event, id, 'N9')">
+      <div *ngIf="isFieldInvalid('id')">נא להקיש ספרות בלבד ועד 9 ספרות לתעודת זהות.</div>
+    </mat-form-field>
+    <mat-form-field id="name" appearance="fill" >
+      <label for="name">שם מלא*</label>
+      <input matInput required>
+      <div *ngIf="isFieldInvalid('name')">נא להכניס שם מלא</div>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <label for="dob">תאריך לידה*</label>
+      <input matInput [matDatepicker]="picker" #dob required (keydown)="onKeyPress($event,dob, 'D')">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <div *ngIf="isFieldInvalid('dob')">נא להכניס תאריך לידה</div>
+    </mat-form-field>
+  </div>
+  <div class="contactfields">
+    <mat-form-field>
+      <label for="email">כתובת אימייל</label>
+      <input matInput required formControlName="email" #email (keydown)="onKeyPress($event,email, '@')">
+      <div *ngIf="isFieldInvalid('email')">נא להכניס אימייל תקין</div>
+    </mat-form-field>
+    <mat-form-field>
+      <label for="phone">טלפון</label>
+      <input matInput formControlName="phone" #phone (keydown)="onKeyPress($event, phone, 'N')">
+      <div *ngIf="isFieldInvalid('phone')">נא להקיש מספרים בלבד</div>
+    </mat-form-field>
+  </div>
+  <div class="additionalfields">
+    <div>
+      <div class="nonrequiredfields">
+        <mat-form-field>
+          <label for="gender">מין</label>
+          <mat-select formControlName="gender">
+            <mat-option value=""></mat-option>
+            <mat-option value="male">זכר</mat-option>
+            <mat-option value="female">נקבה</mat-option>
+            <mat-option value="other">אחר</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      </div>
+  </div>
+    <button mat-raised-button type="submit" [disabled]="!memberForm.valid">הוסף<</button>
+</form>

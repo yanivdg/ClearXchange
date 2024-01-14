@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-image: url('https://th.bing.com/th/id/OIG.u3bDZPXDwOjllTsJfVNl?pid=ImgGn');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+/* styles.css or styles.scss */
+/* Styles for the datepicker content container */
+.mat-datepicker-content-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: greenyellow;
+}
+
+/* Styles for the datepicker toggle button */
+.mat-datepicker-toggle {
+  color: red; /* Change as needed */
+  background-color: white;
+}
+
+/* Styles for the selected date in the datepicker table */
+.mat-calendar-body-selected {
+  color: blue; /* Change as needed */
+  background-color: blue;
+}
+
+/* Styles for the datepicker table */
+.mat-calendar-table {
+  color: #3f51b5; /* Blue text color */
+  border: 1px solid #3f51b5; /* Blue border */
+  background-color: white;
+}
+
+
+/* Styles for the cells in the datepicker table */
+.mat-calendar-body-cell {
+  color: lightseagreen;
+  background-color:black;
+}
+
+.mat-form-field {
+  padding: 10px;
+}
+
+mat-select {
+  direction: rtl;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.cdk-overlay-pane {
+  background: linear-gradient(to bottom, red, orange, yellow, green, blue, violet);
+  text-align: right;
+  justify-content: right;
+  direction:rtl;
+}

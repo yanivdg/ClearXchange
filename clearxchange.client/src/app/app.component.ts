@@ -1,42 +1,43 @@
 import { HttpClient } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Directionality } from '@angular/cdk/bidi';
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+export enum Gender {
+  Male,
+  Female,
+  Other
 }
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+interface Member {
+  Id: string;
+  Name: string;
+  Email: string;
+  dateofbirth: Date;
+  gender: Gender;
+  phone: string;
+}
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
-
+  public member: Member[] = [];
+  selectedTabIndex = 0; 
   constructor(private http: HttpClient) {}
+  addTabActive = false;
+  updateTabActive = false;
+  deleteTabActive = false;
+  displayTabActive = false;
 
+  setActiveTab(tab: 'add' | 'update' | 'delete' | 'display'): void {
+    this.addTabActive = tab === 'add';
+    this.updateTabActive = tab === 'update';
+    this.deleteTabActive = tab === 'delete';
+    this.displayTabActive = tab === 'display';
+  }
   ngOnInit() {
-    this.getForecasts();
+    
   }
-
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  title = 'clearxchange.client';
+  title = 'ClearXchangeApp';
 }

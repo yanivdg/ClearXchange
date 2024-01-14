@@ -1,0 +1,105 @@
+.input-blue.mat-focused .mat-form-field-label {
+  color: #6200EE !important;
+  direction: rtl;
+}
+label {
+  text-align: right;
+  direction: rtl;
+  display: block;
+}
+mat-form-field-label {
+  font-weight: bold;
+  direction: rtl;
+}
+mat-input-element {
+  border: 10px solid yellow;
+  border-radius: 5px;
+  padding: 5px;
+  direction: rtl;
+}
+mat-datepicker-toggle {
+  padding: 100px;
+  color: green;
+}
+.requiredfields1 {
+  background-color: #f5f5f5; /* Light gray */
+  color: #4a4a4a; /* Dark gray */
+  border: 1px solid #e0e0e0; /* Lighter gray border */
+  text-align: right;
+}
+
+  .requiredfields1:hover {
+    background-color: #e5f3ff; /* Light blue on hover */
+    border-color: #20c997; /* Teal accent border */
+  }
+
+.requiredfields2 {
+  background-color: #ffffff; /* White */
+  color: #007bff; /* Dark blue */
+  border: 1px solid #e0e0e0; /* Light gray border */
+  text-align: right;
+}
+
+  .requiredfields2 .success-message {
+    color: #28a745; /* Green success message */
+  }
+
+.requiredfields {
+  background: linear-gradient(to right, #6f42c1, #e83e8c); /* Purple to pink gradient */
+  color: #ffffff; /* White text */
+  border: 1px solid #f5f5f5; /* Light gray border */
+  text-align: right;
+  direction:rtl;
+}
+
+.requiredfields a {
+  color: #ffc107; /* Yellow links */
+}
+
+.requiredfields4 {
+  background-color: #343a40; /* Dark gray */
+  color: #ffffff; /* White text */
+  border: 1px solid #4b555e; /* Slightly darker gray border */
+  text-align: right;
+}
+
+  .requiredfields4 .highlight {
+    color: #00e676; /* Neon green highlight */
+  }
+
+/* styles.css or styles.scss */
+.requiredfields5 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  direction: rtl;
+}
+
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: #3f51b5;
+  }
+   
+
+.contactfields {
+  background: linear-gradient(to right, #f58231, #ffeb3b);
+  color: #4a4a4a;
+  border: 1px solid #f58231;
+}
+
+  .contactfields a {
+    color: #03a9f4;
+  }
+
+.additionalfields3 {
+  background-color: #f5f5f5;
+  color: #4a4a4a;
+  border: 1px solid #007bff;
+}
+
+
+.additionalfields {
+  background-color: #343a40;
+  color: #ffffff;
+  border: 1px solid #f54785;
+}
+
