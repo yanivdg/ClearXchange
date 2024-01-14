@@ -23,7 +23,7 @@ namespace ClearXchange.Server.Controllers
             var token = _jwtService.GenerateToken("SampleUser", "UserRole");
 
             // Return the generated token in the response
-            return Ok(new { Token = token });
+            return Ok(new { Token = "Bearer "+ token });
         }
     }
 
