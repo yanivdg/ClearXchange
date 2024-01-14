@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Uj0HyszY+AUbXSNDo9XJKfDvhE7PzgysHLJARwT06g0=",
+  "Source": "ClearXchange.Server",
+  "BasePath": "_content/ClearXchange.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

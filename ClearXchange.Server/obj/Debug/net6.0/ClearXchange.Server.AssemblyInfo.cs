@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("5f71b524-4c75-41d5-8eb1-e695dc9ebe20")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClearXchange.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+564c54f85007037f9e27f72af4b987a1f8884d38")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8ed72d23a850247e3b5291b5ffee79c6f42e4586")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClearXchange.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClearXchange.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

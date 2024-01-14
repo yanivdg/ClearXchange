@@ -154,5 +154,19 @@ namespace ClearXchange.Server.Controllers
                 return StatusCode(500, ErrorMessages.InternalError);
             }
         }
+
+        [HttpGet("GetGenders")]
+        public IActionResult GetGenders()
+        {
+            var enumValues = Enum.GetValues(typeof(Gender));
+            var genderList = enumValues.Cast<Gender>()
+                                      .Select(g => new { Key = g, Value = GetGenderDisplay(g) })
+                                      .ToList();
+            return Ok(genderList);
+        }
+        private string GetGenderDisplay(Gender gender)
+        {
+            return gender.ToString();
+        }
     }
 }
