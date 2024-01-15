@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClearXchange.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ba01ba74c0b1dda8003fab29c3b236b264e9fe3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ad964a5688bc347c3cb37fdf5d7ededc4f73e11")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClearXchange.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClearXchange.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

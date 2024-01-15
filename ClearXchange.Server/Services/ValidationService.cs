@@ -47,7 +47,7 @@ namespace ClearXchange.Server.Services
 
         public void ValidatePhone(string Phone)
         { 
-            if (!string.IsNullOrEmpty(Phone) && IsNumeric(Phone))
+            if (string.IsNullOrEmpty(Phone) || !IsNumeric(Phone))
             {
                 throw new ArgumentException("Phone number must be numeric.");
             }

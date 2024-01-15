@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace ClearXchange.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MembersController : ControllerBase
