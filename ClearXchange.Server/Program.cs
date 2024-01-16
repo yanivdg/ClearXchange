@@ -13,7 +13,10 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.ComponentModel;
+using Microsoft.Extensions.Options;
 //********************builder**************************//
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +25,8 @@ var config = builder.Configuration;
 //********sqlite*************
 string SqliteConnectionString = config.GetConnectionString("SqliteConnection") ?? "";
 builder.Services.AddDbContext<MemberDbContext>(
-    options => options.UseSqlite(SqliteConnectionString));
+    options =>
+    options.UseSqlite(SqliteConnectionString));
 
 //*******sql server*************
 /*
@@ -31,12 +35,13 @@ builder.Services.AddDbContext<MemberDbContext>(
     options => options.UseSqlServer(sqlConnectionString));
 */
 
-
+/*
 using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
 {
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<MemberDbContext>();
     dbContext.Database.EnsureCreated();
 }
+*/
 
 //*******mongodb*************
 /*
@@ -51,8 +56,15 @@ builder.Services.AddDbContext<MemberDbContext>(options =>
 
 
 // Add services to the container.
-builder.Services.AddMvc();
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddMvc(options =>
+{
+    options.EnableEndpointRouting = false; // if not using endpoint routing
+});
+//controller - 
 builder.Services.AddControllers();
+    
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -65,6 +77,19 @@ builder.Services.AddLogging(options =>
 {
     options.AddConsole(); 
 });
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin", builder =>
+    {
+        builder
+            .AllowAnyOrigin() // Replace with specific origins if needed
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 
 //security
 builder.Services.AddAuthentication(options =>
@@ -116,38 +141,6 @@ builder.Services.AddSwaggerGen(c =>
                 });
 });
 
-
-
-
-//****************************************//
-/*
-builder.Services.AddSwaggerGen(c =>
-{
-    // Configure JWT authentication for Swagger
-    var securityScheme = new OpenApiSecurityScheme
-    {
-        Name = "JWT Authorization",
-        Description = "Enter your JWT token",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
-    };
-    c.AddSecurityDefinition("Bearer", securityScheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
-});
-*/
 builder.Services.AddSingleton<IJwtService, JwtService>();
 //**********************************************//
 
@@ -164,7 +157,7 @@ app.UseMiddleware <LoggingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors("AllowAnyOrigin");
 app.MapControllers();
 app.UseLoggingMiddleware();
 app.Run();

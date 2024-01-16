@@ -14,19 +14,14 @@ namespace ClearXchange.Server.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
+            
         }
 
-        // Additional configuration, if needed
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             //modelBuilder.Entity<Member>().ToTable("Members");
+
         }
 
-        //public IEnumerable<EntityEntry> GetModifiedEntries()
-        //{
-        //    return ChangeTracker.Entries().Where(e => e.State == EntityState.Modified);
-        //}
         public DbSet<Member>? Members { get; set; }
     }
 }

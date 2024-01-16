@@ -49,9 +49,9 @@ namespace ClearXchange.Server.Services
                 ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
                 return principal;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                throw new ArgumentException(ex.Message);
             }
         }
 

@@ -1,5 +1,7 @@
-﻿using ClearXchange.Server.Interfaces;
+﻿using ClearXchange.Server.Constants;
+using ClearXchange.Server.Interfaces;
 using ClearXchange.Server.Model;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Diagnostics.Metrics;
 using System.Text.RegularExpressions;
 
@@ -11,27 +13,32 @@ namespace ClearXchange.Server.Services
         {
             if (string.IsNullOrEmpty(Id))
             {
-                throw new ArgumentException("ID number is required.");
+                throw new ArgumentException(ErrorMessages.IDValidationErr);
             }
 
             if (!int.TryParse(Id, out _))
             {
-                throw new ArgumentException("ID number must be numeric.");
+                throw new ArgumentException(ErrorMessages.IDNumValidationErr);
             }
         }
+
 
         public void ValidateName(string Name)
         {
             if (string.IsNullOrEmpty(Name))
             {
-                throw new ArgumentException("Name is required.");
+                throw new ArgumentException(ErrorMessages.NameValidationErr);
             }
         }
-        public void ValidateDateOfBirth(DateTime DateOfBirth)
+        
+        public void ValidateDateOfBirth(DateTime DateOfBirth)//format yyyy-MM-dd
         {
-            if (DateOfBirth == DateTime.MinValue)
+            // Get the current date
+   
+                DateTime currentDate = DateTime.Now.Date;
+            if (DateOfBirth.Date == DateTime.MinValue.Date || !(DateOfBirth.Date < currentDate.Date))
             {
-                throw new ArgumentException("Date of birth is required.");
+                throw new ArgumentException(ErrorMessages.DOBValidationErr);
             }
 
         }
@@ -40,7 +47,7 @@ namespace ClearXchange.Server.Services
         {
             if (!string.IsNullOrEmpty(Email) && !IsValidEmail(Email))
             {
-                throw new ArgumentException("Email is not valid.");
+                throw new ArgumentException(ErrorMessages.EmailValidationErr);
             }
 
         }
@@ -49,9 +56,10 @@ namespace ClearXchange.Server.Services
         { 
             if (string.IsNullOrEmpty(Phone) || !IsNumeric(Phone))
             {
-                throw new ArgumentException("Phone number must be numeric.");
+                throw new ArgumentException(ErrorMessages.PhoneValidationErr);
             }
         }
+
 
         private bool IsNumeric(string input)
         {
@@ -75,11 +83,15 @@ namespace ClearXchange.Server.Services
         }
         public void ValidateMember(Member member)
         {
-            ValidateID(member.Id);
-            ValidateName(member.Name);
-            ValidateDateOfBirth(member.DateOfBirth);
-            ValidateEmail(member.Email);
-            ValidatePhone(member.Phone);
+            if (member != null)
+            {
+                ValidateID(member.Id);
+                ValidateName(member.Name);
+                ValidateDateOfBirth(member.DateOfBirth);
+                ValidateEmail(member.Email);
+                ValidatePhone(member.Phone);
+            }
+
         }
     }
 

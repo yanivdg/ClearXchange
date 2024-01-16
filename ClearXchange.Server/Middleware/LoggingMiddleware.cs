@@ -24,13 +24,28 @@ namespace ClearXchange.Server.Middleware
             // Log response details
             LogResponse(context.Response);
         }
-
-        private void LogRequest(HttpRequest request)
+        private async Task LogRequest(HttpRequest request)
         {
             var requestDetails = new StringBuilder();
             requestDetails.AppendLine($"Request Method: {request.Method}");
             requestDetails.AppendLine($"Request Path: {request.Path}");
             requestDetails.AppendLine($"Request Query String: {request.QueryString}");
+
+            // Log headers
+            foreach (var header in request.Headers)
+            {
+                requestDetails.AppendLine($"{header.Key}: {string.Join(", ", header.Value)}");
+            }
+
+            // Log body
+            if (request.Body.CanSeek)
+            {
+                request.Body.Seek(0, SeekOrigin.Begin);
+                using var reader = new StreamReader(request.Body);
+                var body = await reader.ReadToEndAsync();
+                requestDetails.AppendLine($"Request Body: {body}");
+                request.Body.Seek(0, SeekOrigin.Begin); // Reset the stream so the next middleware can read it
+            }
 
             _logger.LogInformation(requestDetails.ToString());
         }

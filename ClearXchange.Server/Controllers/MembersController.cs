@@ -86,8 +86,8 @@ namespace ClearXchange.Server.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult> AddMember([FromBody] Member newMember)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //var role = User.FindFirst(ClaimTypes.Role)?.Value;
             try
             {
                 await _memberService.AddMember(newMember);
@@ -95,7 +95,7 @@ namespace ClearXchange.Server.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ErrorMessages.AddingToDbError);
+                _logger.LogError(ex, ErrorMessages.AddingToDbErr);
                 // Handle the exception and return an appropriate response...
                 return StatusCode(500, ErrorMessages.InternalError);
             }
@@ -107,7 +107,7 @@ namespace ClearXchange.Server.Controllers
             // Check if the provided ID matches the ID in the object
             if (id != updatedMember.Id)
             {
-                return BadRequest(ErrorMessages.MisMatchIDError);
+                return BadRequest(ErrorMessages.MisMatchIDErr);
             }
 
             // Retrieve the existing member from the repository

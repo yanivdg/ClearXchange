@@ -1,4 +1,5 @@
 ﻿using ClearXchange.Server.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClearXchange.Server.Interfaces
 {
@@ -8,6 +9,7 @@ namespace ClearXchange.Server.Interfaces
         void ValidateID(string Id);
         void ValidateName(string Name);
         void ValidateDateOfBirth(DateTime DateOfBirth);
+
         void ValidateEmail(string Email);
         void ValidatePhone(string Phone);
 
