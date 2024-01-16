@@ -118,20 +118,14 @@ export class MemberFormComponent implements OnInit {
       },
       (error) => {
         console.error('Error:', error);
-        this.openSnackbar('לא נמצא חבר')
+        this.openSnackbar('לא נמצא חבר');
         
       }
       
     );
     if(this.memberObj!=null)
     {
-      this.memberForm = new FormGroup({
-        Name: new FormControl(this.memberObj.Name),
-        DateOfBirth: new FormControl(this.memberObj.DateOfBirth),
-        Email: new FormControl(this.memberObj.Email),
-        Phone: new FormControl(this.memberObj.Phone),
-        Gender: new FormControl(this.memberObj.Gender)
-      });
+      this.memberForm.patchValue(this.memberObj);
     }
     }
   }
@@ -144,7 +138,6 @@ export class MemberFormComponent implements OnInit {
       this.dataService.deleteRequest(Id).pipe(
         switchMap((response: any) => {
           // Handle the response here
-          alert(response);
           return new Observable(observer => {
             observer.next(response); // Pass the modified response downstream
             observer.complete(); // Complete the Observable
@@ -154,13 +147,13 @@ export class MemberFormComponent implements OnInit {
         (response: any) => {
           // Handle the response or perform subsequent operations if needed
           //this.elementsRetrieved.emit(response);
-          alert(response);
         },
         (error) => {
-          alert('Error:' + error.message);
           console.error('Error:', error);
+          this.openSnackbar('תקלה במחיקת החבר מהמערכת נא פנה לאחראי מערכת');
         }
       );
+      this.openSnackbar('החבר נמחק בהצלחה');
   }
   OnUpdateRequest()
   {
@@ -170,7 +163,6 @@ export class MemberFormComponent implements OnInit {
       this.dataService.updateRequest(this.memberObj).pipe(
         switchMap((response: any) => {
           // Handle the response here
-          alert(response);
           return new Observable(observer => {
             observer.next(response); // Pass the modified response downstream
             observer.complete(); // Complete the Observable
@@ -180,11 +172,11 @@ export class MemberFormComponent implements OnInit {
         (response: any) => {
           // Handle the response or perform subsequent operations if needed
           //this.elementsRetrieved.emit(response);
-          alert(response);
+          this.openSnackbar('החבר עודכן בהצלחה');
         },
         (error) => {
-          alert('Error:' + error.message);
           console.error('Error:', error);
+          this.openSnackbar('תקלה בעדכון החבר במערכת נא פנה לאחראי מערכת');
         }
       );
   }
@@ -195,21 +187,20 @@ export class MemberFormComponent implements OnInit {
       this.dataService.addRequest( this.memberObj ).pipe(
         switchMap((response: any) => {
           // Handle the response here
-          alert(response);
           return new Observable(observer => {
             observer.next(response); // Pass the modified response downstream
             observer.complete(); // Complete the Observable
+            this.openSnackbar('החבר הוסף בהצלחה למערכת');
           });
         })
       ).subscribe(
         (response: any) => {
           // Handle the response or perform subsequent operations if needed
           //this.elementsRetrieved.emit(response);
-          alert(response);
         },
         (error) => {
-          alert('Error:' + error.message);
           console.error('Error:', error);
+          this.openSnackbar('תקלה בהוספת החבר במערכת נא פנה לאחראי מערכת');
         }
       );
   }
