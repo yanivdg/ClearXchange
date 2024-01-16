@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import {  Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-member-form',
@@ -24,7 +25,8 @@ export class MemberFormComponent implements OnInit {
   
   memberForm!: FormGroup;
   @ViewChild('dob') myFormControlElementRef!: ElementRef;
-  constructor(private fb: FormBuilder, private dataService: DataService,private datePipe: DatePipe ) { }
+  constructor(private fb: FormBuilder, private dataService: DataService,private datePipe: DatePipe,private snackBar: MatSnackBar ) { }
+
 
   ngOnInit() {
     this.memberForm = this.fb.group({
@@ -85,6 +87,13 @@ export class MemberFormComponent implements OnInit {
     return this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ss.fff');
   }
   
+  openSnackbar(message:string) {
+    this.snackBar.open(message, 'סגור', {
+      duration: 2000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
   //
   onSearch()
   {
@@ -96,7 +105,7 @@ export class MemberFormComponent implements OnInit {
       switchMap((response: any) => {
         // Handle the response here
         this.memberObj = response;
-        return new Observable(observer => {
+         return new Observable(observer => {
           observer.next(response.body); // Pass the modified response downstream
           observer.complete(); // Complete the Observable
         });
@@ -105,51 +114,34 @@ export class MemberFormComponent implements OnInit {
       (response: any) => {
         // Handle the response or perform subsequent operations if needed
         //this.elementsRetrieved.emit(response);
-        this.memberObj = response;
-
-        this.memberForm = new FormGroup({
-          id: new FormControl(this.memberObj.Id),
-          name: new FormControl(this.memberObj.Name),
-          dateOfBirth: new FormControl(this.memberObj.DateOfBirth),
-          email: new FormControl(this.memberObj.Email),
-          phone: new FormControl(this.memberObj.Phone),
-          gender: new FormControl(this.memberObj.Gender)
-        });
-        
+        this.memberObj = response;        
       },
       (error) => {
         console.error('Error:', error);
-        // Handle errors
+        this.openSnackbar('לא נמצא חבר')
+        
       }
+      
     );
+    if(this.memberObj!=null)
+    {
+      this.memberForm = new FormGroup({
+        Name: new FormControl(this.memberObj.Name),
+        DateOfBirth: new FormControl(this.memberObj.DateOfBirth),
+        Email: new FormControl(this.memberObj.Email),
+        Phone: new FormControl(this.memberObj.Phone),
+        Gender: new FormControl(this.memberObj.Gender)
+      });
+    }
     }
   }
   //
-  onSubmit() {
-    if (this.memberForm?.valid) {
-      // Process the form data
-      //this.memberObj = this.memberForm.value;
-      //this.memberObj.dateofbirth = this.formatDate(this.memberObj.dateofbirth);
-      //
-      this.memberObj = {
-      "Id": "128655570",
-      "Name": "string",
-      "Email": "user@example.com",
-      "DateOfBirth": "2008-01-15T22:27:49.373Z",
-      "Gender": Gender.Female,
-      "Phone": "499997"
-      }
+  OnDeleteRequest()
+  {
+    const control = this.memberForm.get('Id');
+    const Id = control?.value;
 
-      const record = {
-          "id": "073810194",
-          "name": "string",
-          "email": "user@example.com",
-          "dateOfBirth": "2018-02-31",
-          "gender": 0,
-          "phone": "347305344986734155724807487383991141904967933348"
-      }
-
-      this.dataService.updateRequest(record).pipe(
+      this.dataService.deleteRequest(Id).pipe(
         switchMap((response: any) => {
           // Handle the response here
           alert(response);
@@ -169,7 +161,85 @@ export class MemberFormComponent implements OnInit {
           console.error('Error:', error);
         }
       );
-      console.log(this.memberForm.value);
+  }
+  OnUpdateRequest()
+  {
+    this.memberObj = this.memberForm.value;
+    //this.memberObj.DateOfBirth = this.formatDate(this.memberObj.dateOfBirth); 
+ 
+      this.dataService.updateRequest(this.memberObj).pipe(
+        switchMap((response: any) => {
+          // Handle the response here
+          alert(response);
+          return new Observable(observer => {
+            observer.next(response); // Pass the modified response downstream
+            observer.complete(); // Complete the Observable
+          });
+        })
+      ).subscribe(
+        (response: any) => {
+          // Handle the response or perform subsequent operations if needed
+          //this.elementsRetrieved.emit(response);
+          alert(response);
+        },
+        (error) => {
+          alert('Error:' + error.message);
+          console.error('Error:', error);
+        }
+      );
+  }
+  OnAddRequest()
+  {
+    this.memberObj = this.memberForm.value;
+    //this.memberObj.DateOfBirth = this.formatDate(this.memberObj.dateOfBirth); 
+      this.dataService.addRequest( this.memberObj ).pipe(
+        switchMap((response: any) => {
+          // Handle the response here
+          alert(response);
+          return new Observable(observer => {
+            observer.next(response); // Pass the modified response downstream
+            observer.complete(); // Complete the Observable
+          });
+        })
+      ).subscribe(
+        (response: any) => {
+          // Handle the response or perform subsequent operations if needed
+          //this.elementsRetrieved.emit(response);
+          alert(response);
+        },
+        (error) => {
+          alert('Error:' + error.message);
+          console.error('Error:', error);
+        }
+      );
+  }
+
+  onSubmit() {
+    if (this.memberForm?.valid) {
+      // Process the form data
+      //this.memberObj = this.memberForm.value;
+      //this.memberObj.dateofbirth = this.formatDate(this.memberObj.dateofbirth);
+      //
+      switch (this.operation) {
+        case 'add':
+          console.log('Performing add operation');
+          this.OnAddRequest();
+          break;
+      
+        case 'update':
+          console.log('Performing update operation');
+          this.OnUpdateRequest();
+          break;
+      
+        case 'delete':
+          console.log('Performing delete operation');
+          this.OnDeleteRequest();
+          break;
+      
+        default:
+          console.log('Invalid operation');
+      }
+
     } else {
       // Mark form fields as touched to display validation messages
       this.markFormFieldsAsTouched();

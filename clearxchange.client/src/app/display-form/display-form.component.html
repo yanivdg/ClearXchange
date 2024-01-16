@@ -1,12 +1,29 @@
-<h1 style="background-color: blue;">רשימת חברים</h1>
+<h1 style="background-color:goldenrod">רשימת חברים</h1>
+<!--
   <ul>
     <li *ngFor="let member of members">
-      ID: {{member.id}}, 
-      Name: {{member.name}}, 
-      DOB: {{member.dob}}, 
-      Email: {{member.email}}, 
-      Phone: {{member.phone}}, 
-      Gender: {{member.gender}}
+      ID: {{member.Id}}, 
+      Name: {{member.Name}}, 
+      DOB: {{member.DateOfBirth}}, 
+      Email: {{member.Email}}, 
+      Phone: {{member.Phone}}, 
+      Gender: {{member.Gender}}
     </li>
   </ul>
-  
+  -->
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let header of getHeaderRow()">
+          |{{ header }}|
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let member of members">
+        <td *ngFor="let field of getFieldNames(member)">
+          |{{ member[field] }}|
+        </td>
+      </tr>
+    </tbody>
+  </table>

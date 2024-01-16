@@ -28,19 +28,20 @@ export class DataService {
 
   addRequest(record: any): Observable<any> {
     console.log(`Adding Record`);
-    const url = `${this.apiUrl}}/Create/`;
+    const url = `${this.apiUrl}/Create/`;
 
     return this.http.post<any>(url, record, { headers: this.headers })
   }
   
   updateRequest(record: any): Observable<any> {
-    console.log(`Updating Record`);
+    console.log(`Updating Record ${record.id}`);
     const url = `${this.apiUrl}/Update/${record.id}`;
     
     return this.http.put(url, record, { headers: this.headers });
   }
   
   deleteRequest(id: string): Observable<any> {
+    console.log(`Updating Record ${id}`);
     const url = `${this.apiUrl}/Delete/${id}`;
    
     return this.http.delete(url, { headers: this.headers });

@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [MemberFormComponent],
@@ -22,7 +22,9 @@ import { DatePipe } from '@angular/common';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatButtonModule],
+    MatButtonModule,
+    MatSnackBarModule
+  ],
   providers:[DatePipe],
   exports: [MemberFormComponent]
 },)

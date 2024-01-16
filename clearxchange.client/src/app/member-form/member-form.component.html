@@ -6,7 +6,7 @@
              (input)="memberForm.controls['Id'].updateValueAndValidity()">
       <div *ngIf="isFieldInvalid('Id')">נא להקיש ספרות בלבד ועד 9 ספרות לתעודת זהות.</div>
       <div *ngIf="operation === 'delete' || operation === 'update'">
-        <button mat-raised-button id="searchbyid" onclick="">אתר חבר</button>
+        <button mat-raised-button id="searchbyid" (click)="onSearch()">אתר חבר</button>
       </div>
     </mat-form-field>
     <mat-form-field appearance="fill">

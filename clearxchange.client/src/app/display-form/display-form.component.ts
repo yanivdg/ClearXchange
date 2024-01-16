@@ -15,14 +15,15 @@ export class DisplayFormComponent implements OnInit{
   constructor(private dataService:DataService){}
   public eventEmitter = new EventEmitter<void>();
   elementsRetrieved: EventEmitter<string> = new EventEmitter<string>();
-  members:any = [];
+  //members:MemberObj[] = [];
+  members:any;
   ngOnInit(): void {
     this.dataService.getRequest().pipe(
         switchMap((response: any) => {
           // Handle the response here
           this.members = response;
           return new Observable(observer => {
-            observer.next(response.body); // Pass the modified response downstream
+            observer.next(response); // Pass the modified response downstream
             observer.complete(); // Complete the Observable
           });
         })
@@ -30,13 +31,22 @@ export class DisplayFormComponent implements OnInit{
         (response: any) => {
           // Handle the response or perform subsequent operations if needed
           this.elementsRetrieved.emit(response);
+          this.members = response;
         },
         (error) => {
-          alert('Error:' + error.message);
           console.error('Error:', error);
           // Handle errors
         }
       );
 
+  }
+
+ getFieldNames(obj: any): string[] {
+    return Object.keys(obj);
+  }
+
+  getHeaderRow(): string[] {
+    // Use the keys of the first object as headers
+    return this.getFieldNames(this.members[0]);
   }
 }
