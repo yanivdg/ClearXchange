@@ -1,20 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Directionality } from '@angular/cdk/bidi';
-
-export enum Gender {
-  Male,
-  Female,
-  Other
-}
-interface Member {
-  Id: string;
-  Name: string;
-  Email: string;
-  dateofbirth: Date;
-  gender: Gender;
-  phone: string;
-}
+import { Component, OnInit, ViewChild,Input } from '@angular/core';
+import { MemberFormComponent } from './member-form/member-form.component';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +8,11 @@ interface Member {
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  public member: Member[] = [];
-  selectedTabIndex = 0; 
+  //public member: Member[] = [];
+  @Input() operation: string | undefined;
+  selectedTabIndex = 0;
   constructor(private http: HttpClient) {}
+  /*
   addTabActive = false;
   updateTabActive = false;
   deleteTabActive = false;
@@ -36,6 +24,8 @@ export class AppComponent implements OnInit {
     this.deleteTabActive = tab === 'delete';
     this.displayTabActive = tab === 'display';
   }
+  */
+  
   ngOnInit() {
     
   }

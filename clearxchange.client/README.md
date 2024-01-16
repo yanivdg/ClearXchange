@@ -29,3 +29,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## run this to kill port
 ## netstat -ano | findstr :PORT_NUMBER
 ## taskkill /F /PID YOUR_PID
+## batch=>for /f "tokens=5" %%a in ('netstat -ano ^| findstr :YOUR_PORT_NUMBER') do taskkill /F /PID %%a
+## command prompt => for /f "tokens=5" %a in ('netstat -ano ^| findstr :YOUR_PORT_NUMBER') do taskkill /F /PID %a

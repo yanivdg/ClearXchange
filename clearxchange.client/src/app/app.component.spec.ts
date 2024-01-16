@@ -35,11 +35,12 @@ describe('AppComponent', () => {
     ];
 
     component.ngOnInit();
-
-    const req = httpMock.expectOne('/weatherforecast');
+/*
+    const req = httpMock.expectOne('/get');
     expect(req.request.method).toEqual('GET');
-    req.flush(mockForecasts);
+    req.flush(mochoperation);
 
-    expect(component.forecasts).toEqual(mockForecasts);
+    expect(component.operation).toEqual(mochoperation);
+    */
   });
 });

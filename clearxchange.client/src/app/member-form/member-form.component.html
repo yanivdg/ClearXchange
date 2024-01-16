@@ -1,41 +1,58 @@
 <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
   <div class="requiredfields">
     <mat-form-field appearance="fill">
-      <label for="id">תעודת זהות*</label>
-      <input matInput required formControlName="id" #id (keydown)="onKeyPress($event, id, 'N9')">
-      <div *ngIf="isFieldInvalid('id')">נא להקיש ספרות בלבד ועד 9 ספרות לתעודת זהות.</div>
-    </mat-form-field>
-    <mat-form-field id="name" appearance="fill" >
-      <label for="name">שם מלא*</label>
-      <input matInput required>
-      <div *ngIf="isFieldInvalid('name')">נא להכניס שם מלא</div>
+      <label for="Id">תעודת זהות*</label>
+      <input matInput required formControlName="Id" id="Id" #Id (keydown)="onKeyPress($event, Id, 'N9')"
+             (input)="memberForm.controls['Id'].updateValueAndValidity()">
+      <div *ngIf="isFieldInvalid('Id')">נא להקיש ספרות בלבד ועד 9 ספרות לתעודת זהות.</div>
+      <div *ngIf="operation === 'delete' || operation === 'update'">
+        <button mat-raised-button id="searchbyid" onclick="">אתר חבר</button>
+      </div>
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <label for="dob">תאריך לידה*</label>
-      <input matInput [matDatepicker]="picker" #dob required (keydown)="onKeyPress($event,dob, 'D')">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <div *ngIf="isFieldInvalid('dob')">נא להכניס תאריך לידה</div>
+      <label for="Name">שם מלא*</label>
+      <input matInput id="Name" required formControlName="Name" #name
+             (input)="memberForm.controls['Name'].updateValueAndValidity()">
+      <div *ngIf="isFieldInvalid('Name')">נא להכניס שם מלא</div>
     </mat-form-field>
+<!---->
+<mat-form-field appearance="fill">
+  <label for="DateOfBirth">תאריך לידה*</label>
+    <input matInput
+      [value]="DateOfBirth.value | date:'yyyy-MM-dd'"
+      formControlName="DateOfBirth"
+      [matDatepicker]="picker"
+      id="DateOfBirth"
+      #DateOfBirth
+      required
+      (keydown)="onKeyPress($event,DateOfBirth, 'D')"
+      (input)="memberForm.controls['DateOfBirth'].updateValueAndValidity()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker format="yyyy-MM-dd"></mat-datepicker>
+    <div *ngIf="isFieldInvalid('dob')">נא להכניס תאריך לידה</div>
+  </mat-form-field>
+<!---->
   </div>
   <div class="contactfields">
-    <mat-form-field>
-      <label for="email">כתובת אימייל</label>
-      <input matInput required formControlName="email" #email (keydown)="onKeyPress($event,email, '@')">
-      <div *ngIf="isFieldInvalid('email')">נא להכניס אימייל תקין</div>
+    <mat-form-field appearance="fill">
+      <label for="Email">כתובת אימייל</label>
+      <input matInput required formControlName="Email" id="Email" #Email (keydown)="onKeyPress($event,Email, '@')"
+             (input)="memberForm.controls['Email'].updateValueAndValidity()">
+      <div *ngIf="isFieldInvalid('Email')">נא להכניס אימייל תקין</div>
     </mat-form-field>
-    <mat-form-field>
-      <label for="phone">טלפון</label>
-      <input matInput formControlName="phone" #phone (keydown)="onKeyPress($event, phone, 'N')">
-      <div *ngIf="isFieldInvalid('phone')">נא להקיש מספרים בלבד</div>
+    <mat-form-field appearance="fill">
+      <label for="Phone">טלפון</label>
+      <input matInput formControlName="Phone" id="Phone" #Phone (keydown)="onKeyPress($event, Phone, 'N')"
+             (input)="memberForm.controls['Phone'].updateValueAndValidity()">
+      <div *ngIf="isFieldInvalid('Phone')">נא להקיש מספרים בלבד</div>
     </mat-form-field>
   </div>
   <div class="additionalfields">
     <div>
       <div class="nonrequiredfields">
-        <mat-form-field>
+        <mat-form-field appearance="fill">
           <label for="gender">מין</label>
-          <mat-select formControlName="gender">
+          <mat-select id="gender" formControlName="gender">
             <mat-option value=""></mat-option>
             <mat-option value="male">זכר</mat-option>
             <mat-option value="female">נקבה</mat-option>
@@ -43,7 +60,15 @@
           </mat-select>
         </mat-form-field>
       </div>
-      </div>
+    </div> 
   </div>
-    <button mat-raised-button type="submit" [disabled]="!memberForm.valid">הוסף<</button>
+  <div *ngIf="operation === 'add'">
+  <button mat-raised-button id="add" [disabled]="!memberForm.valid">הוסף חבר</button>
+  </div>
+  <div *ngIf="operation === 'update'">
+  <button mat-raised-button id="update" [disabled]="!memberForm.valid">עדכן חבר</button>
+  </div>
+  <div *ngIf="operation === 'delete'">
+  <button mat-raised-button id="delete" [disabled]="!memberForm.valid">מחק חבר</button>
+</div>
 </form>

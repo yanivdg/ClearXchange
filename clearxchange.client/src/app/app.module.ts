@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MemberFormModule } from './member-form/member-form.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { NumericInputDirective } from './numeric-input.directive'; // Import your directive
+import { MemberFormModule } from './member-form/member-form.module';
+import { DisplayFormModule } from './display-form/display-form.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,12 +20,16 @@ import { NumericInputDirective } from './numeric-input.directive'; // Import you
     MatTabsModule,
     RouterOutlet,
     FormsModule,
-    MemberFormModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MemberFormModule,
+    DisplayFormModule
     // other modules
   ],
-  declarations: [AppComponent, NumericInputDirective],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+
+export class AppModule {
+  
+ }

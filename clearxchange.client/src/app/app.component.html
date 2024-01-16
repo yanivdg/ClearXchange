@@ -4,20 +4,20 @@
   </div>
   <div class="content">
     <div>
-      <mat-tab-group [(selectedIndex)]="selectedTabIndex">
-        <mat-tab label="הוספת חבר">
-          <app-member-form operation="add">נא הוסף חבר</app-member-form>
-        </mat-tab>
-        <mat-tab label="עדכון חבר">
-          <app-member-form operation="update"></app-member-form>
-        </mat-tab>
-        <mat-tab label="מחיקת חבר">
-          <app-member-form operation="delete"></app-member-form>
-        </mat-tab>
-        <mat-tab label="צפייה בטבלת חברים">
-          <!-- operation="display" form goes here -->
-        </mat-tab>
-      </mat-tab-group>
+        <mat-tab-group [(selectedIndex)]="selectedTabIndex">
+          <mat-tab label="הוספת חבר" class="add">
+            <app-member-form [operation]="'add'"></app-member-form>
+          </mat-tab>
+          <mat-tab label="עדכון חבר" class="update">
+            <app-member-form [operation]="'update'"></app-member-form>
+          </mat-tab>
+          <mat-tab label="מחיקת חבר" class="delete">
+            <app-member-form [operation]="'delete'"></app-member-form>
+          </mat-tab>
+          <mat-tab label="צפייה בטבלת חברים" class="display">
+            <app-display-form>BLABLA</app-display-form>
+          </mat-tab>
+        </mat-tab-group>
     </div>
   </div>
 </main>

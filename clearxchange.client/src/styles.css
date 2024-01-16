@@ -60,5 +60,23 @@ mat-select {
   background: linear-gradient(to bottom, red, orange, yellow, green, blue, violet);
   text-align: right;
   justify-content: right;
-  direction:rtl;
+  direction: rtl;
+}
+
+cdk-overlay-pane {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+  --mat-tab-header-active-focus-label-text-color: #151414;
+  --mat-tab-header-active-label-text-color: #151414;
+  --mat-tab-header-inactive-label-text-color: rgb(0 0 0 / 60%);
+  --mat-tab-header-inactive-focus-label-text-color: rgb(0 0 0 / 60%);
+  --mat-tab-header-inactive-hover-label-text-color: rgb(0 0 0 / 60%);
+  --mdc-tab-indicator-active-indicator-color: #242022;
+  --mat-tab-header-active-hover-label-text-color: #151414;
+  --mat-tab-header-active-ripple-color: #151414;
+  --mat-tab-header-inactive-ripple-color: #232222;
 }

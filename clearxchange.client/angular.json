@@ -1,6 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
+  "cli": {
+    "analytics": "834488a1-8f91-47d6-ae58-ce2d49061188"
+  },
   "newProjectRoot": "projects",
   "projects": {
     "clearxchange.client": {
@@ -92,7 +94,5 @@
       }
     }
   },
-  "cli": {
-    "analytics": "834488a1-8f91-47d6-ae58-ce2d49061188"
-  }
+  "version": 1
 }
