@@ -11,6 +11,8 @@
     </li>
   </ul>
   -->
+  <button (click)="DisplayMembers()">הבא נתוני חברים</button>
+  <div *ngIf="display">
   <table>
     <thead>
       <tr>
@@ -27,3 +29,4 @@
       </tr>
     </tbody>
   </table>
+</div>

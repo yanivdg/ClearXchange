@@ -17,27 +17,31 @@ export class DisplayFormComponent implements OnInit{
   elementsRetrieved: EventEmitter<string> = new EventEmitter<string>();
   //members:MemberObj[] = [];
   members:any;
-  ngOnInit(): void {
+  display:boolean=false;
+  DisplayMembers():void{
     this.dataService.getRequest().pipe(
-        switchMap((response: any) => {
-          // Handle the response here
-          this.members = response;
-          return new Observable(observer => {
-            observer.next(response); // Pass the modified response downstream
-            observer.complete(); // Complete the Observable
-          });
-        })
-      ).subscribe(
-        (response: any) => {
-          // Handle the response or perform subsequent operations if needed
-          this.elementsRetrieved.emit(response);
-          this.members = response;
-        },
-        (error) => {
-          console.error('Error:', error);
-          // Handle errors
-        }
-      );
+      switchMap((response: any) => {
+        // Handle the response here
+        this.members = response;
+        return new Observable(observer => {
+          observer.next(response); // Pass the modified response downstream
+          observer.complete(); // Complete the Observable
+        });
+      })
+    ).subscribe(
+      (response: any) => {
+        // Handle the response or perform subsequent operations if needed
+        this.elementsRetrieved.emit(response);
+        this.members = response;
+      },
+      (error) => {
+        console.error('Error:', error);
+        // Handle errors
+      }
+    );
+    this.display = true;
+  }
+  ngOnInit(): void {
 
   }
 

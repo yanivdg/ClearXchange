@@ -6,6 +6,8 @@ import {  Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { format } from 'date-fns-tz';
+
 
 @Component({
   selector: 'app-member-form',
@@ -97,7 +99,7 @@ export class MemberFormComponent implements OnInit {
   //
   onSearch()
   {
-    const control = this.memberForm.get('id');
+    const control = this.memberForm.get('Id');
     const value = control?.value;
     if(value!='')
     {
@@ -183,8 +185,12 @@ export class MemberFormComponent implements OnInit {
   OnAddRequest()
   {
     this.memberObj = this.memberForm.value;
+    const control = this.memberForm.get('DateOfBirth');
+    const DOB = control?.value;
+    // Convert and format with date-fns-tz
+    this.memberObj.DateOfBirth = format(DOB, "yyyy-MM-dd'T'HH:mm:ss.000'Z'", { timeZone: 'Asia/Jerusalem' });
     //this.memberObj.DateOfBirth = this.formatDate(this.memberObj.dateOfBirth); 
-      this.dataService.addRequest( this.memberObj ).pipe(
+      this.dataService.addRequest(this.memberObj ).pipe(
         switchMap((response: any) => {
           // Handle the response here
           return new Observable(observer => {
