@@ -154,8 +154,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware <LoggingMiddleware>();
+//app.UseMiddleware<MemberParsingMiddleware>();
+//app.UseMiddleware<RequestMiddleware>();
+//app.UseMiddleware<ResponseMiddleware>();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 app.UseCors("AllowAnyOrigin");
 app.MapControllers();

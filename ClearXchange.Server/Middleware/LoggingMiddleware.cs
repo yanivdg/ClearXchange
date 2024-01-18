@@ -1,5 +1,8 @@
-﻿using System.Text;
-
+﻿//using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.Json;
+using ClearXchange.Server.Services;
 namespace ClearXchange.Server.Middleware
 {
     public class LoggingMiddleware
@@ -15,15 +18,53 @@ namespace ClearXchange.Server.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            // Log request details
-            LogRequest(context.Request);
-           
-            // Call the next middleware in the pipeline
-            await _next(context);
+            try
+            {
+                // Log request details
+                LogRequest(context.Request);
 
-            // Log response details
-            LogResponse(context.Response);
+                // Call the next middleware in the pipeline
+                await _next(context);
+
+                // Log response details
+                LogResponse(context.Response);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details
+                _logger.LogError($"Exception: {ex}");
+
+                // Check if it's a validation exception
+                if (ex is ValidationException validationException)
+                {
+                    // Log additional details specific to validation failure
+                    _logger.LogError("Validation failed. Details:");
+                    foreach (var failure in validationException.Failures)
+                    {
+                        _logger.LogError($"{failure.Key}: {failure.Value}");
+                    }
+
+                    // Return a custom error response to the client
+                    context.Response.StatusCode = 400; // Bad Request
+                    context.Response.ContentType = "application/json";
+
+                    var errorResponse = new
+                    {
+                        Message = "Validation failed",
+                        Errors = validationException.Failures
+                    };
+
+                    var jsonResponse = JsonSerializer.Serialize(errorResponse);
+                    await context.Response.WriteAsync(jsonResponse);
+
+                    return; // End the middleware execution
+                }
+
+                // Re-throw the exception to allow it to propagate further if needed
+                throw;
+            }
         }
+
         private async Task LogRequest(HttpRequest request)
         {
             var requestDetails = new StringBuilder();

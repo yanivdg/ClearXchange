@@ -12,8 +12,8 @@ namespace ClearXchange.Server.Constants
         [EnumMember(Value = "Male")]
         Male,
 
-        //[Description("Female")]
-        [EnumMember(Value = "Male")]
+        [Description("Female")]
+        [EnumMember(Value = "Female")]
         Female,
 
         //[Description("Other")]

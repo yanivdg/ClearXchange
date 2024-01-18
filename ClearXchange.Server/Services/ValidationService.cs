@@ -22,7 +22,6 @@ namespace ClearXchange.Server.Services
             }
         }
 
-
         public void ValidateName(string Name)
         {
             if (string.IsNullOrEmpty(Name))
@@ -36,7 +35,9 @@ namespace ClearXchange.Server.Services
             // Get the current date
    
                 DateTime currentDate = DateTime.Now.Date;
-            if (DateOfBirth.Date == DateTime.MinValue.Date || !(DateOfBirth.Date < currentDate.Date))
+
+
+            if (DateOfBirth.Date == DateTime.MinValue.Date || (DateOfBirth.Date >= currentDate.Date))
             {
                 throw new ArgumentException(ErrorMessages.DOBValidationErr);
             }

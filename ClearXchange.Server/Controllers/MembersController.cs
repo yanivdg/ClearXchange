@@ -4,7 +4,9 @@ using ClearXchange.Server.Model;
 using ClearXchange.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Security.Claims;
+using ThirdParty.Json.LitJson;
 //using static MongoDB.Bson.Serialization.Serializers.SerializerHelper;
 
 namespace ClearXchange.Server.Controllers
@@ -83,13 +85,26 @@ namespace ClearXchange.Server.Controllers
             }
         }
 
+
+
         [HttpPost("Create")]
-        public async Task<ActionResult> AddMember([FromBody] Member newMember)
+        public async Task<ActionResult> AddMember([FromBody]object jsonData)
         {
             //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             //var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            //string jsonString = JsonConvert.SerializeObject(newMember);
             try
             {
+                // Process the JSON string or convert it to a specific class if needed
+                var newMember = JsonConvert.DeserializeObject<Member>(jsonData.ToString());
+
+
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError("Invalid model state for the Member model");
+                    return BadRequest(ModelState);
+                }
+
                 await _memberService.AddMember(newMember);
                 return CreatedAtAction(nameof(GetMember), new { id = newMember.Id }, newMember);
             }
@@ -97,13 +112,21 @@ namespace ClearXchange.Server.Controllers
             {
                 _logger.LogError(ex, ErrorMessages.AddingToDbErr);
                 // Handle the exception and return an appropriate response...
-                return StatusCode(500, ErrorMessages.InternalError);
+                //return StatusCode(500, ErrorMessages.InternalError);
+                return BadRequest($"Error processing data: {ex.Message}");
             }
         }
 
         [HttpPut("Update/{id}")]
         public async Task<ActionResult> UpdateMember(string id, [FromBody] Member updatedMember)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the Member model");
+                return BadRequest(ModelState);
+            }
+
+
             // Check if the provided ID matches the ID in the object
             if (id != updatedMember.Id)
             {
@@ -167,6 +190,12 @@ namespace ClearXchange.Server.Controllers
         private string GetGenderDisplay(Gender gender)
         {
             return gender.ToString();
+        }
+
+        private T DeserializeAndTransform<T>(string jsonData)
+        {
+            // Use a JSON deserialization library (e.g., Newtonsoft.Json)
+            return JsonConvert.DeserializeObject<T>(jsonData);
         }
     }
 }
