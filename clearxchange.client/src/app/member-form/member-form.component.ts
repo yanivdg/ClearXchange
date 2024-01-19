@@ -107,7 +107,7 @@ export class MemberFormComponent implements OnInit {
       switchMap((response: any) => {
         // Handle the response here
         //this.memberForm.patchValue(response);
-        //this.memberObj = response;
+        this.memberObj = response;
          return new Observable(observer => {
           observer.next(response.body); // Pass the modified response downstream
           observer.complete(); // Complete the Observable
@@ -128,24 +128,31 @@ export class MemberFormComponent implements OnInit {
     );
     if(this.memberObj!=null)
     {
+
+    
+      /*
+      this.memberObj.Name
+      this.memberObj.Email
+      this.memberObj.DateOfBirth
+      this.memberObj.Gender
+      this.memberObj.Phone
+      */
+      this.memberForm = this.fb.group({
+        Name:[this.memberObj.Name],
+        DateOfBirth:[this.memberObj.DateOfBirth],
+        Gender:[this.memberObj.Gender],
+        Phone:[this.memberObj.Phone],
+        Email: [this.memberObj.Email],
+      });
      // this.memberForm.patchValue(this.memberObj);
      // Assuming this.memberForm is an instance of FormGroup
-    this.memberForm.controls['Id'].disable(); // Disable the Id field
-
+    //this.memberForm.controls['Id'].disable(); // Disable the Id field
     // Disable all other fields
-    Object.keys(this.memberForm.controls).forEach(key => {
-    if (key !== 'Id') {
-        this.memberForm.controls[key].disable();
-      }
-      });
-     this.memberForm.setValidators(null);
-     this.memberForm.patchValue({
-      Name: this.memberObj.Name,
-      Email: this.memberObj.Email,
-      DateOfBirth: this.memberObj.DateOfBirth,
-      Gender: this.memberObj.Gender,
-      Phone: this.memberObj.Phone,
-    });
+    //Object.keys(this.memberForm.controls).forEach(key => {
+    //if (key !== 'Id') {
+     //   this.memberForm.controls[key].disable();
+     // }
+     // });
     }
     }
   }

@@ -33,6 +33,7 @@ export class DisplayFormComponent implements OnInit{
         // Handle the response or perform subsequent operations if needed
         this.elementsRetrieved.emit(response);
         this.members = response;
+        
       },
       (error) => {
         console.error('Error:', error);
