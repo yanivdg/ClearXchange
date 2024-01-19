@@ -118,39 +118,46 @@ namespace ClearXchange.Server.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult> UpdateMember(string id, [FromBody] Member updatedMember)
+        public async Task<ActionResult> UpdateMember(string id, [FromBody] object jsonData)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the Member model");
-                return BadRequest(ModelState);
-            }
 
-
-            // Check if the provided ID matches the ID in the object
-            if (id != updatedMember.Id)
-            {
-                return BadRequest(ErrorMessages.MisMatchIDErr);
-            }
-
-            // Retrieve the existing member from the repository
-            var existingMember = await _memberService.GetMemberById(id);
-
-            // Check if the member exists
-            if (existingMember == null)
-            {
-                return NotFound(ErrorMessages.NotFound);
-            }
-
-            // Update the properties of the existing member
-            existingMember.Name = updatedMember.Name;
-            existingMember.DateOfBirth = updatedMember.DateOfBirth;
-            existingMember.Email = updatedMember.Email;
-            existingMember.Gender = updatedMember.Gender;
-            existingMember.Phone = updatedMember.Phone;
 
             try
             {
+                // Process the JSON string or convert it to a specific class if needed
+                var updatedMember = JsonConvert.DeserializeObject<Member>(jsonData.ToString());
+
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError("Invalid model state for the Member model");
+                    return BadRequest(ModelState);
+                }
+
+                if (id == null)
+                {
+                    return BadRequest(ErrorMessages.NullIDErr);
+                }
+                // Check if the provided ID matches the ID in the object
+                if (id != updatedMember.Id)
+                {
+                    return BadRequest(ErrorMessages.MisMatchIDErr);
+                }
+
+                // Retrieve the existing member from the repository
+                var existingMember = await _memberService.GetMemberById(id);
+
+                // Check if the member exists
+                if (existingMember == null)
+                {
+                    return NotFound(ErrorMessages.NotFound);
+                }
+
+                // Update the properties of the existing member
+                existingMember.Name = updatedMember.Name;
+                existingMember.DateOfBirth = updatedMember.DateOfBirth;
+                existingMember.Email = updatedMember.Email;
+                existingMember.Gender = updatedMember.Gender;
+                existingMember.Phone = updatedMember.Phone;
                 // Save the changes to the repository
                 await _memberService.UpdateMember(id,existingMember);
                 _logger.LogInformation($"Member with ID {id} updated successfully.");
@@ -168,6 +175,12 @@ namespace ClearXchange.Server.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError("Invalid model state for the Member model");
+                    return BadRequest(ModelState);
+                }
+
                 await _memberService.DeleteMember(id);
                 return NoContent();
             }

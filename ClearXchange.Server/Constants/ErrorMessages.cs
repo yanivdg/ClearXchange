@@ -5,6 +5,7 @@
         public static string InternalError = "Internal Server Error";
         public static string NotFound = "Member not found.";
         public static string AddingToDbErr = $"Error adding member";
+        public static string NullIDErr = "ID is empty";
         public static string MisMatchIDErr = "ID in the URL does not match the ID in the object.";
         public static string ID9DigitsErr = "ID Number must be 9 digits.";
         public static string DOBValidationErr = "Valid Date of birth is required.";

@@ -8,16 +8,17 @@ namespace ClearXchange.Server.Constants
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Gender
     {
+
         [Description("Male")]
         [EnumMember(Value = "Male")]
-        Male,
+        Male = 1,
 
         [Description("Female")]
         [EnumMember(Value = "Female")]
-        Female,
+        Female =2,
 
-        //[Description("Other")]
+        [Description("Other")]
         [EnumMember(Value = "Other")]
-        Other
+        Other = 3
     }
 }
