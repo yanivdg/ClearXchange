@@ -16,15 +16,15 @@
   <table>
     <thead>
       <tr>
-        <th *ngFor="let header of getHeaderRow()">
-          |{{ header }}|
+        <th *ngFor="let header of getHeaderRow()" style="background-color:gold;">
+           {{ header }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let member of members">
-        <td *ngFor="let field of getFieldNames(member)">
-          |{{ member[field] }}|
+        <td *ngFor="let field of getFieldNames(member)" style="background-color:green;">
+          {{ member[field] }}
         </td>
       </tr>
     </tbody>

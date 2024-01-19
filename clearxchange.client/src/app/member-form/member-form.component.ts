@@ -106,7 +106,8 @@ export class MemberFormComponent implements OnInit {
     this.dataService.getRequest(value).pipe(
       switchMap((response: any) => {
         // Handle the response here
-        this.memberObj = response;
+        //this.memberForm.patchValue(response);
+        //this.memberObj = response;
          return new Observable(observer => {
           observer.next(response.body); // Pass the modified response downstream
           observer.complete(); // Complete the Observable
@@ -116,7 +117,7 @@ export class MemberFormComponent implements OnInit {
       (response: any) => {
         // Handle the response or perform subsequent operations if needed
         //this.elementsRetrieved.emit(response);
-        this.memberObj = response;        
+        //this.memberObj = response;        
       },
       (error) => {
         console.error('Error:', error);
@@ -127,7 +128,24 @@ export class MemberFormComponent implements OnInit {
     );
     if(this.memberObj!=null)
     {
-      this.memberForm.patchValue(this.memberObj);
+     // this.memberForm.patchValue(this.memberObj);
+     // Assuming this.memberForm is an instance of FormGroup
+    this.memberForm.controls['Id'].disable(); // Disable the Id field
+
+    // Disable all other fields
+    Object.keys(this.memberForm.controls).forEach(key => {
+    if (key !== 'Id') {
+        this.memberForm.controls[key].disable();
+      }
+      });
+     this.memberForm.setValidators(null);
+     this.memberForm.patchValue({
+      Name: this.memberObj.Name,
+      Email: this.memberObj.Email,
+      DateOfBirth: this.memberObj.DateOfBirth,
+      Gender: this.memberObj.Gender,
+      Phone: this.memberObj.Phone,
+    });
     }
     }
   }
