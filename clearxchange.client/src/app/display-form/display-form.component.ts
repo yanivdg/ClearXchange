@@ -40,6 +40,17 @@ export class DisplayFormComponent implements OnInit{
         // Handle errors
       }
     );
+
+    //
+    if(this.members!=null)
+    {
+      for (const member of this.members) 
+      { 
+        const genderString = this.getGenderString(member.Gender);
+        member.Gender = genderString as unknown as Gender;
+      }
+  }
+   //
     this.display = true;
   }
   ngOnInit(): void {
@@ -53,5 +64,18 @@ export class DisplayFormComponent implements OnInit{
   getHeaderRow(): string[] {
     // Use the keys of the first object as headers
     return this.getFieldNames(this.members[0]);
+  }
+
+  getGenderString(gender: any): string {
+    switch (gender) {
+      case Gender.Male:
+        return 'Male';
+      case Gender.Female:
+        return 'Female';
+        case Gender.Other:
+          return 'Female';
+      default:
+        return '';
+    }
   }
 }

@@ -24,7 +24,7 @@ export class MemberFormComponent implements OnInit {
     Gender: 0,
     Phone: ''
   };
-  
+  ValidateCheck:boolean = true;
   memberForm!: FormGroup;
   @ViewChild('dob') myFormControlElementRef!: ElementRef;
   constructor(private fb: FormBuilder, private dataService: DataService,private datePipe: DatePipe,private snackBar: MatSnackBar ) { }
@@ -97,13 +97,26 @@ export class MemberFormComponent implements OnInit {
     });
   }
   //
+    // Function to get properties with similar names (case-insensitive)
+    getPropertiesValue(obj: any, targetName: string): { [key: string]: any } {
+      const result: { [key: string]: any } = {};
+  
+      for (const propName in obj) {
+        if (obj.hasOwnProperty(propName) && propName.toLowerCase() === targetName.toLowerCase()) {
+          result[propName] = obj[propName];
+        }
+      }
+
+      return result[targetName]
+    }
+
   onSearch()
   {
     const control = this.memberForm.get('Id');
-    const value = control?.value;
-    if(value!='')
+    const Id = control?.value;
+    if(Id!='' && Id!=undefined)
     {
-    this.dataService.getRequest(value).pipe(
+    this.dataService.getRequestbyVal(Id).pipe(
       switchMap((response: any) => {
         // Handle the response here
         //this.memberForm.patchValue(response);
@@ -126,33 +139,24 @@ export class MemberFormComponent implements OnInit {
       }
       
     );
-    if(this.memberObj!=null)
+    if(this.memberObj.Id!="" && this.memberObj!=undefined)
     {
-
-    
-      /*
-      this.memberObj.Name
-      this.memberObj.Email
-      this.memberObj.DateOfBirth
-      this.memberObj.Gender
-      this.memberObj.Phone
-      */
-      this.memberForm = this.fb.group({
-        Name:[this.memberObj.Name],
-        DateOfBirth:[this.memberObj.DateOfBirth],
-        Gender:[this.memberObj.Gender],
-        Phone:[this.memberObj.Phone],
-        Email: [this.memberObj.Email],
+      this.ValidateCheck = false;          
+          this.memberForm = this.fb.group({
+            Id:[this.getPropertiesValue(this.memberObj, 'id')],
+            Name:[this.getPropertiesValue(this.memberObj, 'name')],
+            DateOfBirth:[this.getPropertiesValue(this.memberObj,'dateOfBirth')],
+            Gender:[this.getPropertiesValue(this.memberObj,'gender')],
+            Phone:[this.getPropertiesValue(this.memberObj,'phone')],
+            Email: [this.getPropertiesValue(this.memberObj,'email')],
       });
+      this.ValidateCheck = false;  
+      // Assuming memberObj is an object with values
+          // Call the function to get similar named properties
+
      // this.memberForm.patchValue(this.memberObj);
      // Assuming this.memberForm is an instance of FormGroup
-    //this.memberForm.controls['Id'].disable(); // Disable the Id field
-    // Disable all other fields
-    //Object.keys(this.memberForm.controls).forEach(key => {
-    //if (key !== 'Id') {
-     //   this.memberForm.controls[key].disable();
-     // }
-     // });
+
     }
     }
   }
@@ -161,7 +165,8 @@ export class MemberFormComponent implements OnInit {
   {
     const control = this.memberForm.get('Id');
     const Id = control?.value;
-
+    if(Id!='' && Id!=undefined)
+    {
       this.dataService.deleteRequest(Id).pipe(
         switchMap((response: any) => {
           // Handle the response here
@@ -181,9 +186,42 @@ export class MemberFormComponent implements OnInit {
         }
       );
       this.openSnackbar('החבר נמחק בהצלחה');
+    }
+  }
+
+  isDateOfBirthValid(): boolean {
+    const reqfield: string[] = ['Id', 'Name', 'DateOfBirth'];
+    
+    for (const field of reqfield) {
+      let control = this.memberForm.get(field);
+      if (control) {
+          let val = control.value;
+
+      // Check for empty or null values for 'Id' and 'Name'
+      if ((field === 'Id' || field === 'Name') && (val === null || val.trim() === '')) {
+          return false;
+      }
+
+      // Check for 'DateOfBirth' to have a date lower than the current date
+      if (field === 'DateOfBirth' && val) {
+          let currentDate = new Date();
+          let dob = new Date(val);
+
+          if (dob >= currentDate) {
+              return false;
+            }
+            }
+          }
+        }
+    return true;
   }
   OnUpdateRequest()
   {
+
+    if(!this.isDateOfBirthValid)
+    {
+      return;
+    }
     this.memberObj = this.memberForm.value;
     //this.memberObj.DateOfBirth = this.formatDate(this.memberObj.dateOfBirth); 
  

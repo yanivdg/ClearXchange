@@ -13,7 +13,7 @@
       <label for="Name">שם מלא*</label>
       <input matInput id="Name" required formControlName="Name" #name
              (input)="memberForm.controls['Name'].updateValueAndValidity()">
-      <div *ngIf="isFieldInvalid('Name')">נא להכניס שם מלא</div>
+      <div *ngIf="ValidateCheck && isFieldInvalid('Name')">נא להכניס שם מלא</div>
     </mat-form-field>
 <!---->
 <mat-form-field appearance="fill">
@@ -29,7 +29,7 @@
       (input)="memberForm.controls['DateOfBirth'].updateValueAndValidity()">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker format="yyyy-MM-dd"></mat-datepicker>
-    <div *ngIf="isFieldInvalid('dob')">נא להכניס תאריך לידה</div>
+    <div *ngIf="ValidateCheck && isFieldInvalid('DateOfBirth')">נא להכניס תאריך לידה</div>
   </mat-form-field>
 <!---->
   </div>
@@ -38,7 +38,7 @@
       <label for="Email">כתובת אימייל</label>
       <input matInput required formControlName="Email" id="Email" #Email (keydown)="onKeyPress($event,Email, '@')"
              (input)="memberForm.controls['Email'].updateValueAndValidity()">
-      <div *ngIf="isFieldInvalid('Email')">נא להכניס אימייל תקין</div>
+      <div *ngIf="ValidateCheck && isFieldInvalid('Email')">נא להכניס אימייל תקין</div>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <label for="Phone">טלפון</label>
